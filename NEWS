@@ -1,0 +1,19 @@
+              CHANGES IN WeightedCluster VERSION 1.0
+
+NEW FEATURES
+  o The vignette (English version) has been published in the LIVES Working papers series.
+  o The vignette (manual) has been translated in English.
+  o seqclustname: automatic labeling of clusters using sequence medoids.
+  o Added the WeightedCluster vignette (in French).
+  o It is now possible to plot the "RHC" statistic computed as 1-HC. This way all statistics should be maximized (Requested by Gilbert Ritschard).
+  o It is now possible to specify the colors used by plot.clustrange (Requested by Sandra Ham).
+  o Now testing for correct input in "as.clustrange".
+
+BUG FIXES
+  o PBC, HG, HC, where computed only on the lower triangular part of the distance matrix (instead on the whole one).
+  o Corrected citation informations
+  o Many grammar and spelling corrections in the WeightedClusterPreview vignette (thanks to Nevena Zhelyazkova).
+  
+			  CHANGES IN WeightedCluster VERSION 0.9
+
+  o First development release

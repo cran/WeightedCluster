@@ -1,0 +1,39 @@
+import(TraMineR, cluster)
+
+export(
+as.clustrange,
+as.seqtree,
+wcAggregateCases,
+wcClusterQuality,
+wcKMedoids,
+wcKMedRange,
+wcSilhouetteObs,
+seqclustname
+)
+
+S3method(as.clustrange, hclust)
+S3method(as.clustrange, twins)
+S3method(as.clustrange, default)
+S3method(as.seqtree, hclust)
+S3method(as.seqtree, twins)
+S3method(as.seqtree, default)
+
+S3method(print, clustrange)
+S3method(plot, clustrange)
+S3method(summary, clustrange)
+
+S3method(print, kmedoids)
+
+
+S3method(print, wcAggregateCases)
+S3method(wcAggregateCases, data.frame)
+S3method(wcAggregateCases, matrix)
+
+
+useDynLib(WeightedCluster,
+wc_RKmedoids=RKmedoids,
+wc_RClusterQualSimple=RClusterQualSimple,
+wc_RClusterQualSimpleBoot=RClusterQualSimpleBoot,
+wc_RClusterQual=RClusterQual,
+wc_RClusterComputeIndivASW=RClusterComputeIndivASW
+)
