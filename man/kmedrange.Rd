@@ -8,12 +8,15 @@ Compute \code{\link{wcKMedoids}} clustering for different number of clusters.
 Compute \code{\link{wcKMedoids}} clustering for different number of clusters.
 }
 \usage{
-wcKMedRange(diss, kvals, ...)
+wcKMedRange(diss, kvals, weights=NULL, R=1,  samplesize=NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{diss}{A dissimilarity matrix or a dist object (see \code{\link{dist}}).}
   \item{kvals}{A numeric vector containing the number of cluster to compute.}
+  \item{weights}{Numeric. Optional numerical vector containing case weights.}
+  \item{R}{Optional number of bootstrap that can be used to build confidence intervals.}
+  \item{samplesize}{Size of bootstrap sample. Default to sum of weights.}
   \item{\dots}{Additionnal parameters passed to \code{\link{wcKMedoids}}.}
 }
 \details{

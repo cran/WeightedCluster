@@ -1,5 +1,0 @@
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{WeightedCluster Library Manual: A practical guide to creating typologies of trajectories in the social sciences with R}
-%\VignetteKeywords{Clustering, Weights, state sequences, Optimal matching}
-\begin{document}
-\end{document}

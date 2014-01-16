@@ -4,7 +4,7 @@
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\stat.bib"
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\bibliomat.bib"
 
-
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{WeightedCluster Library Manual: A practical guide to creating typologies of trajectories in the social sciences with R}
 %\VignetteKeywords{Clustering, Weights, state sequences, Optimal matching}
 
@@ -84,6 +84,7 @@ options(width=60, prompt="R> ", continue="     ", useFancyQuotes=FALSE, digits=3
 library(WeightedCluster)
 library(TraMineR)
 library(vegan)
+library(knitr)
 library(isotone)
 hook_setwidth <- local({
     default.width <- 0

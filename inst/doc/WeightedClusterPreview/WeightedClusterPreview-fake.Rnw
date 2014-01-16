@@ -1,5 +1,0 @@
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{WeightedCluster Preview}
-%\VignetteKeywords{Clustering, Weights, state sequences, Optimal matching}
-\begin{document}
-\end{document}

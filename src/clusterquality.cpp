@@ -44,6 +44,7 @@ typedef std::map<double, CmpCluster *>::iterator KendallTreeIterator;
 
 void finalizeKendall(SEXP ptr){
 	KendallTree * kendall;
+	//REprintf("Finalizing kendall\n");
 	kendall= static_cast<KendallTree *>(R_ExternalPtrAddr(ptr));
 	KendallTreeIterator it;
 	for (it = kendall->begin();it != kendall->end();it++) {
@@ -122,6 +123,36 @@ extern "C" {
 		return ans;
 		
 	}
+	SEXP RClusterQualKendallFactory(){
+		//REprintf("Kendall factory\n");
+		KendallTree *kt = new KendallTree();
+		//REprintf("Kendall factory %d\n", kt->size());
+		return(kendallFactory(kt));
+	}
+	SEXP RClusterQualKendall(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist, SEXP kendallS){
+		int nclusters=INTEGER(numclust)[0];
+		SEXP ans, stats, asw;
+		PROTECT(ans = allocVector(VECSXP, 2));
+		PROTECT(stats = allocVector(REALSXP, ClusterQualNumStat));
+		PROTECT(asw = allocVector(REALSXP, 2*nclusters));
+		SET_VECTOR_ELT(ans, 0, stats);
+		SET_VECTOR_ELT(ans, 1, asw);
+		//REprintf("Before Kendall\n");
+		KendallTree * kendall= static_cast<KendallTree *>(R_ExternalPtrAddr(kendallS));
+		//REprintf("Before size\n");
+		//REprintf("Kendall initialized %d\n", kendall->size());
+		resetKendallTree(kendall);
+		
+		//REprintf("Kendall initialized\n");
+		//return(ans);
+		if(INTEGER(isdist)[0]){
+			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+		} else {
+			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+		}
+		UNPROTECT(3);
+		return ans;
+	}
 	
 	SEXP RClusterComputeIndivASW(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist){
 		int nclusters=asInteger(numclust);
@@ -155,56 +186,92 @@ extern "C" {
 		
 	}
 	
+	//.Call(, ans, diss, as.integer(clustmat), as.double(weights), as.integer(ncluster), as.integer(R),  quote(internalsample()), environment(), samplesize, isdist, simple)
+	SEXP RClusterQualBootSeveral(SEXP ans, SEXP diss, SEXP clustmatS, SEXP weightSS, SEXP numclust, SEXP Rs, SEXP expr, SEXP rho, SEXP samplesizeS, SEXP isdist, SEXP simpleS){
 	
-	SEXP RClusterQualSimpleBoot(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP Rs, SEXP expr, SEXP rho, SEXP nindivS, SEXP isdist){
-		int nclusters=INTEGER(numclust)[0];
-		int ncase = length(cluster);
-		int R = INTEGER(Rs)[0];
-		int nindiv = INTEGER(nindivS)[0];
-		int simplestat[5] = {ClusterQualHPG, ClusterQualF, ClusterQualR, ClusterQualF2, ClusterQualR2};
-		int i, r;
+		int nbclusttest = ncols(clustmatS);
+		int ncase = nrows(clustmatS);
+		int * clustmat=INTEGER(clustmatS);
+		//REprintf("Clustmat size =%d x %d\n", ncase, nbclusttest);
+		int R = asInteger(Rs);
+		bool simple = asLogical(simpleS);
+		int full_stat_indice[] = {ClusterQualHPG, ClusterQualHG, ClusterQualHGSD, 
+						ClusterQualASWi, ClusterQualASWw, ClusterQualF, 
+						ClusterQualR, ClusterQualF2, ClusterQualR2, ClusterQualHC};
+		int short_stat_indice[] = {ClusterQualHPG, ClusterQualF, ClusterQualR, ClusterQualF2, ClusterQualR2};
+		int num_st_indice = ClusterQualNumStat;
+		int * stat_indice = full_stat_indice;
+		int samplesize=asInteger(samplesizeS);
+		if(simple){
+			stat_indice = short_stat_indice;
+			num_st_indice = 5;
+		}
 		double * weights = new double[ncase];
-		
+		double * ww=NULL;
 		double * stat=new double[ClusterQualNumStat];
-		double *asw= new double[nclusters];
-		SEXP randomSample, st;
-		int * rs;
-		PROTECT(st = allocMatrix(REALSXP, R, 5));
-		double *stt =REAL(st);
-		if(INTEGER(isdist)[0]){
-			clusterqualitySimple_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), stat, nclusters, asw);
-		} else {
-			clusterqualitySimple(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), stat, nclusters, asw);
+		int maxncluster=-1;
+		for(int c=0; c<nbclusttest; c++){
+			int nclusters=INTEGER(numclust)[c];
+			if(nclusters>maxncluster){
+				maxncluster=nclusters;
+			}
 		}
-		for(i=0; i<5;i++){
-			stt[i*R] = stat[simplestat[i]];
+		//REprintf("Maxncluster=%d\n", maxncluster);
+		double *asw= new double[2*maxncluster];
+		SEXP randomSample;
+		KendallTree kendall;
+		for(int r=0; r<R; r++){
+			//REprintf("R=%d\n", r);
+			if(r==0){
+				ww = REAL(weightSS);
+			}else{
+				for(int i=0; i<ncase; i++){	
+					weights[i]=0;
+				}
+				PROTECT(randomSample = eval(expr, rho));
+				int* rs=INTEGER(randomSample);
+				for(int i=0; i<samplesize; i++){	
+					weights[rs[i]]++;
+				}
+				UNPROTECT(1);
+				ww = weights;
+			}
+			for(int c=0; c<nbclusttest; c++){
+				//REprintf("Starting C=%d loop\n", c);
+				int nclusters=INTEGER(numclust)[c];
+				int* clustsol =clustmat + c*ncase;
+				if(INTEGER(isdist)[0]){
+					if(simple){
+						clusterqualitySimple_dist(REAL(diss), clustsol, ww, ncase, stat, nclusters, asw);
+					}else{
+						resetKendallTree(&kendall);
+						clusterquality_dist(REAL(diss), clustsol, ww, ncase, stat, nclusters, asw, kendall);
+					}
+				} else {
+					if(simple){
+						clusterqualitySimple(REAL(diss), clustsol, ww, ncase, stat, nclusters, asw);
+					}else{
+						resetKendallTree(&kendall);
+						clusterquality(REAL(diss), clustsol, ww, ncase, stat, nclusters, asw, kendall); 
+					}
+				}
+				//REprintf("Copying values");
+				double * stt=REAL(VECTOR_ELT(ans, c));
+				for(int i=0; i<num_st_indice;i++){
+					stt[r+i*R] = stat[stat_indice[i]];
+					//REprintf(" [i=%d => %d, v=%g] ", i, r+i*R, stat[stat_indice[i]]);
+				}
+				//REprintf("Finished Copying\n");
+			}
 		}
-		for(r=1; r<R; r++){
-			PROTECT(randomSample = eval(expr, rho));
-			rs=INTEGER(randomSample);
-			for(i=0; i<ncase; i++){	
-				weights[i]=0;
-			}
-			for(i=0; i<nindiv; i++){	
-				weights[rs[i]]++;
-			}
-			UNPROTECT(1);
-			if(INTEGER(isdist)[0]){
-				clusterqualitySimple_dist(REAL(diss), INTEGER(cluster), weights, length(cluster), stat, nclusters, asw);
-			} else {
-				clusterqualitySimple(REAL(diss), INTEGER(cluster), weights, length(cluster), stat, nclusters, asw);
-			}
-			for(i=0; i<5;i++){
-				stt[r+i*R] = stat[simplestat[i]];
-			}
-			
+		KendallTreeIterator it;
+		for (it = kendall.begin();it != kendall.end();it++) {
+			delete it->second;
 		}
-		//ww <- tabulate(sample.int(nrow(diss), size=totweights, replace=TRUE, prob=prob), nbins=nrow(diss))
+		delete [] weights;
 		delete [] stat;
 		delete [] asw;
-		UNPROTECT(1);
-		return st;
-		
+		return R_NilValue;
 	}
 	SEXP RClusterQualInitBoot(){
 		return(kendallFactory(new KendallTree()));
@@ -229,4 +296,5 @@ extern "C" {
 		return ans;
 		
 	}
+	
 }

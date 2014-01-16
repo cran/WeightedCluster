@@ -8,20 +8,23 @@
 Build a clustrange object to compare different clustering solutions.
 }
 \description{
-Convert a 
+Build a clustrange object to compare different clustering solutions.
 }
 \usage{
-as.clustrange(object, diss, weights=NULL, ...)
-\method{as.clustrange}{twins}(object, diss, weights=NULL, ncluster, ...) 
-\method{as.clustrange}{hclust}(object, diss, weights=NULL, ncluster, ...) 
+as.clustrange(object, diss, weights=NULL, R=1,  samplesize=NULL, ...)
+\method{as.clustrange}{twins}(object, diss, weights=NULL, R=1,  samplesize=NULL, ncluster=20, ...) 
+\method{as.clustrange}{hclust}(object, diss, weights=NULL, R=1,  samplesize=NULL, ncluster=20, ...) 
 \method{plot}{clustrange}(x, stat="noCH", legendpos="bottomright", 
-    norm="none", withlegend=TRUE, lwd=1, col=NULL, ...)
+    norm="none", withlegend=TRUE, lwd=1, col=NULL, ylab="Indicators", 
+	xlab="N clusters", conf.int=0.9, ci.method="none", ci.alpha=.3, line="t0", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{The object to convert such as a data.frame.}
   \item{diss}{A dissimilarity matrix or a dist object (see \code{\link{dist}}).}
   \item{weights}{Optional numerical vector containing weights.}
+  \item{R}{Optional number of bootstrap that can be used to build confidence intervals.}
+  \item{samplesize}{Size of bootstrap sample. Default to sum of weights.}
   \item{ncluster}{Integer. Maximum number of cluster. The range will include all clustering solution starting from two to \code{ncluster}.}
   \item{x}{A \code{clustrange} object to be plotted.}
   \item{stat}{Character. The list of statistics to plot or "noCH" to plot all statistics except "CH" and "CHsq" or "all" for all statistics. See \code{\link{wcClusterQuality}} for a list of possible values. It is also possible to use "RHC" to plot the quality measure 1-HC. Unlike HC, RHC should be maximized as all other quality measures.}
@@ -30,6 +33,12 @@ as.clustrange(object, diss, weights=NULL, ...)
   \item{withlegend}{Logical. If \code{FALSE}, the legend is not plotted.}
   \item{lwd}{Numeric. Line width, see \code{\link{par}}.}
   \item{col}{A vector of line colors, see \code{\link{par}}. If \code{NULL}, a default set of color is used.}
+  \item{xlab}{x axis label.}
+  \item{ylab}{y axis label.}
+  \item{conf.int}{Confidence to build the confidence interval (default: 0.9).}
+  \item{ci.method}{Method used to build the confidence interval (only if bootstrap has been used, see R above). One of "none" (do not plot confidence interval), "norm" (based on normal approximation), "perc" (based on percentile).)}
+  \item{ci.alpha}{alpha color value used to plot the interval.}
+  \item{line}{Which value should be plotted by the line? One of "t0" (value for actual sample), "mean" (average over all bootstraps), "median"(median over all bootstraps).}
   \item{\dots}{Additionnal parameters passed to/from methods.}
 }
 \details{

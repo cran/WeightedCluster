@@ -20,9 +20,16 @@ void CLUSTERQUALITY_FUNCNAME(double * distmatrix, int * clusterid, double *weigh
 	
 	//Maybe use  R_qsort_I to sort distances between individuals first
 	CmpCluster * cmpclust=NULL;
+	CmpCluster * ZeroDist;
 	KendallTreeIterator it;
-	CmpCluster * ZeroDist=new CmpCluster();
-	kendall[0.0]=ZeroDist;
+	it=kendall.find(0.0);
+	if (it!=kendall.end()) {
+		ZeroDist= it->second;
+		//Too much REprintf("Duplicate dist %g\n", xx);
+	} else { //Build new node only when k==1
+		ZeroDist=new CmpCluster();
+		kendall[0.0]=ZeroDist;
+	}
 	TMRLOG(2,"Pearson loop and kendall tree\n");
 	#ifdef DISTOBJECT_VERSION
 	ij =-nelements;

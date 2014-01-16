@@ -4,7 +4,7 @@
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\stat.bib"
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\bibliomat.bib"
 
-
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Le manuel de la librairie WeightedCluster: un guide pratique pour la creation de typologies de trajectoires en sciences sociales avec R}
 %\VignetteKeywords{Clustering, Weights, state sequences, Optimal matching}
 
@@ -84,6 +84,7 @@ options(width=60, prompt="R> ", continue="     ", useFancyQuotes=FALSE, digits=3
 library(WeightedCluster)
 library(TraMineR)
 library(vegan)
+library(knitr)
 library(isotone)
 hook_setwidth <- local({
     default.width <- 0
@@ -268,7 +269,7 @@ Cette figure pr\'{e}sente le r\'{e}sultat de cette proc\'{e}dure et permet de vi
 
 Cet exemple illustre la \textit{simplification} des donn\'{e}es effectu\'{e}es par les proc\'{e}dures de clustering. En ne retenant que quatre groupes, on amalgame deux logiques qui pourraient (ou non) \^{e}tre pertinentes pour l'analyse. Notons qu'en ne retenant que cinq groupes, on amalgame les distinctions qui se font \`{a} un niveau inf\'{e}rieur. On effectue ainsi toujours une simplification.
 
-Pour obtenir un regroupement en un nombre de groupes particulier, on coupe l'arbre \`{a} un niveau donn\'{e}. Ceci signifie que l'on garde tous les n\oe uds terminaux si l'arbre s'arr\^{e}tait au niveau pr\'{e}senter sur la droite. Dans \proglang{R}, on r\'{e}cup\`{e}re cette information \`{a} l'aide de la fonction \code{cutree}. Par exemple, pour utiliser le regroupement en $4$ classes distinctes.
+Pour obtenir un regroupement en un nombre de groupes particulier, on coupe l'arbre \`{a} un niveau donn\'{e}. Ceci signifie que l'on garde tous les n\oe uds terminaux si l'arbre s'arr\^{e}tait au niveau pr\'{e}sent\'{e} sur la droite. Dans \proglang{R}, on r\'{e}cup\`{e}re cette information \`{a} l'aide de la fonction \code{cutree}. Par exemple, pour utiliser le regroupement en $4$ classes distinctes.
 
 
 <<cutreecompute, fig.keep="none">>=

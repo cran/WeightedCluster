@@ -42,7 +42,7 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 	vardis <- dissvar(diss, weights=weights)
 	
 	as.seqtreeDTNBuildNode <- function(ind, vardis, depth, current) {
-		node <- TraMineR:::DTNInit(ind=ind, vardis=vardis, depth=depth, dmat=diss, weights=weights)
+		node <- TraMineRInternalNodeInit(ind=ind, vardis=vardis, depth=depth, dmat=diss, weights=weights)
 		node$info$splitschedule <- depth
 		SCtot <- vardis*node$info$n
 		SCres <- SCtot
@@ -76,7 +76,7 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 				)
 				info$lvar=lSCres/info$lpop
 				info$rvar=rSCres/info$rpop
-				bestSpl$spl <- TraMineR:::DTNsplit(p-1, index = 1:2,  
+				bestSpl$spl <- TraMineRInternalSplitInit(p-1, index = 1:2,  
 					 prob = c(info$lpop, info$rpop)/node$info$n, info = info, labels=SplitLabels)
 				SCres <- bestSpl$spl$info$SCres
 				node$split <- bestSpl$spl

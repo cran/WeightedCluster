@@ -4,7 +4,7 @@
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\stat.bib"
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\bibliomat.bib"
 
-
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{WeightedCluster Preview}
 %\VignetteKeywords{Clustering, Weights, state sequences, Optimal matching}
 \documentclass[a4paper]{article}
@@ -89,6 +89,7 @@
 options(width=60, prompt="R> ", continue="     ", useFancyQuotes=FALSE, digits=3)
 library(WeightedCluster)
 library(TraMineR)
+library(knitr)
 hook_setwidth <- local({
     default.width <- 0
 	function(before, options, envir){
@@ -241,17 +242,11 @@ summary(pamClustRange, max.rank=2)
 
 The objets returned by \code{as.clustrange} or \code{wcKMedRange} contain a \code{data.frame} with cluster membership (named \code{clustering}). For instance, we can plot the sequences according to PAM clustering in 5 groups using:
 
-<<mppamplotd, include=FALSE>>=
-pdf(file="graphics/WCP-pamclust5.pdf", height=6, width=9)
-seqdplot(mvad.seq, group=pamClustRange$clustering$cluster5, border=NA)
-dev.off()
-@
-
-<<mppamplot, fig.height=6, fig.width=9, eval=FALSE>>=
+<<mppamplot, fig.height=6, fig.width=9>>=
 seqdplot(mvad.seq, group=pamClustRange$clustering$cluster5, border=NA)
 @
 
-\includegraphics[width=.8\linewidth]{graphics/WCP-pamclust5}
+%\includegraphics[width=.8\linewidth]{graphics/WCP-pamclust5}
 
 \section{Disaggregating data}
 

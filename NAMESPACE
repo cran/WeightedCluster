@@ -1,5 +1,5 @@
 import(TraMineR, cluster)
-importFrom(boot, boot)
+importFrom(utils, packageDescription, packageVersion)
 importFrom(RColorBrewer, brewer.pal)
 
 export(
@@ -7,6 +7,7 @@ as.clustrange,
 as.seqtree,
 wcAggregateCases,
 wcClusterQuality,
+wcCmpCluster,
 wcKMedoids,
 wcKMedRange,
 wcSilhouetteObs,
@@ -24,6 +25,10 @@ S3method(print, clustrange)
 S3method(plot, clustrange)
 S3method(summary, clustrange)
 
+S3method(print, clustrangefamily)
+S3method(plot, clustrangefamily)
+S3method(summary, clustrangefamily)
+
 S3method(print, kmedoids)
 
 
@@ -32,10 +37,14 @@ S3method(wcAggregateCases, data.frame)
 S3method(wcAggregateCases, matrix)
 
 
+
+
 useDynLib(WeightedCluster,
 wc_RKmedoids=RKmedoids,
 wc_RClusterQualSimple=RClusterQualSimple,
-wc_RClusterQualSimpleBoot=RClusterQualSimpleBoot,
 wc_RClusterQual=RClusterQual,
-wc_RClusterComputeIndivASW=RClusterComputeIndivASW
+wc_RClusterQualKendallFactory=RClusterQualKendallFactory,
+wc_RClusterQualKendall=RClusterQualKendall,
+wc_RClusterComputeIndivASW=RClusterComputeIndivASW,
+wc_RClusterQualBootSeveral=RClusterQualBootSeveral
 )

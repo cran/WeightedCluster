@@ -1,3 +1,13 @@
+              CHANGES IN WeightedCluster VERSION 1.2
+NEW FEATURES
+  o as.clustrange(), wcKMedRange(): Added bootstrap of cluster quality measures.
+  o wcCmpCluster(): Automatically compute different clustering solutions and associated quality measures to help identifying the best one.
+  o as.clustrange(), wcKMedRange(): Speed and memory handling improvements.
+
+BUG FIXES
+  o wcKMedRange() was internally converting dist objects to matrix. For this reason, it used too much memory. This isn't the case anymore.  
+  o Moved the vignettes source to the vignettes folder.
+
               CHANGES IN WeightedCluster VERSION 1.0
 
 NEW FEATURES
