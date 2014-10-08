@@ -24,7 +24,12 @@ wcCmpCluster <- function(diss, weights=NULL, maxcluster, method="all", pam.combi
 	for(meth in method){
 		if(meth !="pam"){
 			if(meth %in% hclustmethods){
-				hc <- hclust(dd, method=meth, members=weights)
+			  if(meth == "ward"){
+			    hc <- hclust(dd^2, method = meth, members = weights)
+			  }
+			  else{
+			    hc <- hclust(dd, method = meth, members = weights)
+			  }
 			} else if(meth=="diana"){
 				hc <- diana(diss, diss=TRUE)
 			} else if(meth=="beta.flexible"){
