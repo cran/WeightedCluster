@@ -17,7 +17,7 @@ wcKMedRange <- function(diss, kvals, weights=NULL, R=1, samplesize=NULL, ...){
 		i <- i+1
 	}
 	if(R==1){
-		kendall <- .Call(wc_RClusterQualKendallFactory)
+		kendall <- .Call(C_RClusterQualKendallFactory)
 		for(i in 1:length(kvals)){
 			stat <- wcClusterQualityInternal(diss=diss, clustering=ret$clustering[,i], weights=weights, kendall=kendall)
 			ret$stats[i,] <- stat$stats
@@ -44,7 +44,7 @@ as.clustrange <- function(object, diss, weights=NULL, R=1, samplesize=NULL, ...)
 }
 
 as.clustrange.hclust <- function(object, diss, weights=NULL, R=1, samplesize=NULL, ncluster=20, ...){
-	
+
 	if(ncluster<3){
 		stop(" [!] ncluster should be greater than 2.")
 	}
@@ -55,7 +55,7 @@ as.clustrange.hclust <- function(object, diss, weights=NULL, R=1, samplesize=NUL
 	if(ncluster > n){
 		stop(" [!] ncluster should be less than ", n)
 	}
-	
+
 	pred <- data.frame(Split2=factor(cutree(object, 2)))
 	for(p in 3:ncluster){
 		pred[, paste("Split", p, sep="")] <- factor(cutree(object, p))
@@ -75,12 +75,12 @@ as.clustrange.default <- function(object, diss, weights=NULL, R=1,  samplesize=N
 	ret$kvals <- numeric(numclust)
 	ret$stats <-  matrix(-1, nrow=numclust, ncol=10)
 	## print("BuildingKendall")
-	kendall <- .Call(wc_RClusterQualKendallFactory)
+	kendall <- .Call(C_RClusterQualKendallFactory)
 	## print(class(kendall))
 	## print(kendall)
 	## print("Kendall")
-	
-	
+
+
 	if(R==1){
 		for(i in 1:numclust){
 			ret$kvals[i] <- length(unique(ret$clustering[,i]))
@@ -125,7 +125,7 @@ print.clustrange <- function(x, digits=2, bootstat=c("t0", "mean", "stderr"), ..
 		x <- round(x$stats, digits)
 	}
 	print(x, ...)
-	
+
 }
 
 normalize.values.all <- function(stats, norm){
@@ -148,10 +148,10 @@ normalize.values.matrix <- function(stats, norm){
 	st <- normalize.values(c(stats), norm)
 	dim(st) <- dim(stats)
 	return(st)
-} 
+}
 
-plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none", 
-							withlegend=TRUE, lwd=1, col=NULL, ylab="Indicators", 
+plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none",
+							withlegend=TRUE, lwd=1, col=NULL, ylab="Indicators",
 							xlab="N clusters", conf.int=0.9, ci.method="none", ci.alpha=.3, line="t0", ...){
 	kvals <- x$kvals
 	if(length(stat)==1){
@@ -175,7 +175,7 @@ plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none"
 			stats <- x$stats[, stat]
 		}
 	}
-	
+
 	if(is.null(col)){
 		allnames <- colnames(x$stats)
 		cols <- brewer.pal(length(allnames)+1, "Set3")[-2]
@@ -187,6 +187,7 @@ plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none"
 			stop(" [!] You should specify at least one color per quality measure to plot.")
 		}
 		cols <- col
+		names(cols) <- colnames(stats)
 	}
 	plot.ci <-  ci.method!="none" && !is.null(x$boot)
 	if(plot.ci) {
@@ -219,7 +220,7 @@ plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none"
 		ylim <- range(unlist(stats), finite=TRUE)
 	}
 	plot(kvals, xlim=range(kvals, finite=TRUE), ylim=ylim, type="n", ylab=ylab, xlab=xlab, ...)
-	labels <- paste(colnames(stats), "(", round(apply(stats, 2, min), 2),"/", round(apply(stats, 2, max),2), ")")	
+	labels <- paste(colnames(stats), "(", round(apply(stats, 2, min), 2),"/", round(apply(stats, 2, max),2), ")")
 	names(labels) <- colnames(stats)
 	for(l in colnames(stats)){
 		ss <- stats[,l]
@@ -227,7 +228,7 @@ plot.clustrange <- function(x, stat="noCH", legendpos="bottomright", norm="none"
 		if(plot.ci){
 			polygon(c(rev(kvals), kvals), c(rev(borne[[l]][1, ] ), borne[[l]][2, ] ), col = adjustcolor(cols[l], alpha.f=ci.alpha), border = NA)
 		}
-		
+
 	}
 	if(withlegend) {
 		legend(legendpos, fill=cols[1:ncol(stats)], legend=labels)
@@ -249,6 +250,6 @@ summary.clustrange <- function(object, max.rank=1, ...){
 		clusterrank[s, clindices] <- object$kvals[od]
 		clusterrank[s, valindices] <- object$stats[od, s]
 	}
-	
+
 	return(as.data.frame(clusterrank, check.names=FALSE))
 }

@@ -53,8 +53,11 @@ wcKMedoids <- function(diss, k, weights=NULL, npass = 1, initialclust=NULL, meth
 	if(k < 2 || k > nelements) {
 		stop(" [!] k should be in [2,",nelements,"]")
 	}
-	
-	ret <- .Call(wc_RKmedoids, as.integer(nelements),  diss, quote(InternalRandomSample()), environment(), as.integer(initialclust), as.integer(npass), as.double(weights), as.integer(method), as.integer(debuglevel), as.integer(isdist))
+
+	ret <- .Call(C_RKmedoids, as.integer(nelements),  diss,
+	  quote(InternalRandomSample()), environment(), as.integer(initialclust),
+	  as.integer(npass), as.double(weights), as.integer(method),
+	  as.integer(debuglevel), as.integer(isdist))
 	names(ret) <- c("clustering", "info")
 	## Taking care of C style indices
 	ret$clustering <- ret$clustering+1

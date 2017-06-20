@@ -28,19 +28,19 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
  	}
 	## Model matrix from forumla
 	nobs= nrow(diss)
-	
+
 	## Allow integer weights for replicates
 	if(weighted & !is.null(attr(seqdata,"weights") )){
-		weights <- attr(seqdata,"weights") 
-	} 
+		weights <- attr(seqdata,"weights")
+	}
 	else {
 		weights <- as.double(rep(1,nobs))
 	}
 	pop <- sum(weights)
 #	TraMineR:::.localstuffDissTree$DTNnodeCounter <- as.integer(1)
-	
+
 	vardis <- dissvar(diss, weights=weights)
-	
+
 	as.seqtreeDTNBuildNode <- function(ind, vardis, depth, current) {
 		node <- TraMineRInternalNodeInit(ind=ind, vardis=vardis, depth=depth, dmat=diss, weights=weights)
 		node$info$splitschedule <- depth
@@ -51,7 +51,7 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 		}
 		## print(SCtot)
 		#varnames <- colnames(pred)
-		
+
 		for (p in current:ncluster) {
 			clust <- predictor[ind, p-1]
 			SplitLabels <- unique(clust)
@@ -63,12 +63,12 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 				# print(ind)
 				# print(as.integer(ind[bestSpl$variable]))
 				# print(diss)
-				lSCres <- .Call("tmrWeightedInertiaDist", diss, as.integer(nrow(diss)), 
-					as.integer(FALSE), as.integer(ind[bestSpl$variable]), as.double(weights), 
-					as.integer(FALSE), package="TraMineR")
-				rSCres <- .Call("tmrWeightedInertiaDist", diss, as.integer(nrow(diss)), 
-					as.integer(FALSE), as.integer(ind[!bestSpl$variable]), as.double(weights), 
-					as.integer(FALSE), package="TraMineR")
+				lSCres <- TraMineRInternalWeightedInertiaDist(diss, as.integer(nrow(diss)),
+					as.integer(FALSE), as.integer(ind[bestSpl$variable]), as.double(weights),
+					as.integer(FALSE))
+				rSCres <- TraMineRInternalWeightedInertiaDist(diss, as.integer(nrow(diss)),
+					as.integer(FALSE), as.integer(ind[!bestSpl$variable]), as.double(weights),
+					as.integer(FALSE))
 				info <- list(
 						lpop=sum(weights[ind[bestSpl$variable]]),
 						rpop=sum(weights[ind[!bestSpl$variable]]),
@@ -76,13 +76,13 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 				)
 				info$lvar=lSCres/info$lpop
 				info$rvar=rSCres/info$rpop
-				bestSpl$spl <- TraMineRInternalSplitInit(p-1, index = 1:2,  
+				bestSpl$spl <- TraMineRInternalSplitInit(p-1, index = 1:2,
 					 prob = c(info$lpop, info$rpop)/node$info$n, info = info, labels=SplitLabels)
 				SCres <- bestSpl$spl$info$SCres
 				node$split <- bestSpl$spl
 				node$split$info$R2 <- 1-(SCres/SCtot)
 				node$surrogates <- bestSpl$sur
-				
+
 				#print(bestSpl)
 				left <- as.seqtreeDTNBuildNode(ind=ind[bestSpl$variable], vardis=bestSpl$spl$info$lvar, depth=p, current=p+1)
 				right <- as.seqtreeDTNBuildNode(ind=ind[!bestSpl$variable], vardis=bestSpl$spl$info$rvar, depth=p, current=p+1)
@@ -94,7 +94,7 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 		## Maximum depth reached
 		return(node)
 	}
-	
+
 	root <- as.seqtreeDTNBuildNode(ind=1:nobs, vardis=vardis, depth=1, current=2)
 	#print(root)
 	tree <- list()
@@ -112,7 +112,7 @@ as.seqtree.default <- function(object, seqdata, diss, weighted=TRUE, ...) {
 	tree$weights <- weights
 	##tree <- party(root, data=predictor, fitted =fitted, terms = terms(formula.call),  info = info)
 	tree$root <- root
-	
+
 	class(tree) <- c("seqtree", "disstree", class(tree))
 	return(tree)
 }

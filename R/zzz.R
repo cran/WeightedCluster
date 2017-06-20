@@ -18,8 +18,8 @@
 	packageStartupMessage('   vignette("WeightedClusterFR") ## Complete manual in French')
 	packageStartupMessage('   vignette("WeightedClusterPreview") ## Short preview in English')
 	packageStartupMessage("\nTo cite WeightedCluster in publications please use:")
-	packageStartupMessage("Studer, Matthias (2013). WeightedCluster Library Manual: A practical guide to")
-	packageStartupMessage("   creating typologies of trajectories in the social sciences with R.")
-	packageStartupMessage("   LIVES Working Papers, 24. doi: 10.12682/lives.2296-1658.2013.24")
+	x <- "Studer, Matthias (2013). WeightedCluster Library Manual: A practical guide to creating typologies of trajectories in the social sciences with R. LIVES Working Papers, 24. doi: 10.12682/lives.2296-1658.2013.24"
+	sapply(strwrap(x, exdent=3), packageStartupMessage)
+	invisible()
 	
 }

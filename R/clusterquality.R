@@ -25,16 +25,18 @@ wcClusterQualityInternal <- function(diss, clustering, weights=NULL, kendall=NUL
 	if(length(clustering)!=nelements|| length(weights)!=nelements){
 		stop("[!] different number of elements in diss, clustering and/or weights arguments.")
 	}
-	
+
 	ncluster <- max(clustering)+1
 	if(is.null(kendall)){
-		cq <- .Call(wc_RClusterQual, diss, clustering, as.double(weights), as.integer(ncluster), as.integer(isdist), as.integer(0))
+	  cq <- .Call(C_RClusterQual, diss, clustering, as.double(weights),
+	    as.integer(ncluster), as.integer(isdist), as.integer(0))
 	}else{
-		cq <- .Call(wc_RClusterQualKendall, diss, clustering, as.double(weights), as.integer(ncluster), as.integer(isdist), kendall)
+	  cq <- .Call(C_RClusterQualKendall, diss, clustering, as.double(weights),
+	    as.integer(ncluster), as.integer(isdist), kendall)
 	}
 	names(cq[[1]]) <-c("PBC", "HG", "HGSD", "ASW", "ASWw", "CH", "R2", "CHsq", "R2sq", "HC")
 	dim(cq[[2]]) <- c(nlevels(clusterF), 2)
-	
+
 	rownames(cq[[2]]) <-levels(clusterF)
 	colnames(cq[[2]]) <- c("ASW", "ASWw")
 	names(cq) <- c("stats", "ASW")
@@ -93,7 +95,8 @@ wcSilhouetteObs <- function(diss, clustering, weights=NULL, measure="ASW"){
 		measure <- "ASWw"
 	}
 	ncluster <- max(clustering)+1
-	ret <- .Call(wc_RClusterComputeIndivASW, diss, clustering, as.double(weights), as.integer(ncluster), as.integer(isdist))
+	ret <- .Call(C_RClusterComputeIndivASW, diss, clustering, as.double(weights),
+	  as.integer(ncluster), as.integer(isdist))
 	asw <- data.frame(ASW=ret[[1]], ASWw=ret[[2]])
 	return(asw[, measure])
 	#define ClusterQualHPG 0
@@ -149,21 +152,21 @@ clustrangeboot<- function(diss, clustering, weights=NULL, R=999, samplesize=NULL
 		nclusters[i] <- as.integer(nlevels(clusterF))
 	}
 
-	
+
 	totweights <- sum(weights)
 	prob <- weights/totweights
 	if(is.null(samplesize)){
 		samplesize <- as.integer(floor(totweights))
 	}
-	
+
 	internalsample <- function(){
 		return(as.integer(sample.int(nelements, size=samplesize, replace=TRUE, prob=prob)-1L))
 	}
-	
-	bts <- .Call("RClusterQualBootSeveral", ans, diss, clustmat, as.double(weights), 
-										as.integer(nclusters), as.integer(R+1),  quote(internalsample()), 
-										environment(), as.integer(samplesize), as.integer(isdist), as.integer(simple), PACKAGE="WeightedCluster")
-	
+
+	bts <- .Call(C_RClusterQualBootSeveral, ans, diss, clustmat, as.double(weights),
+	  as.integer(nclusters), as.integer(R+1),  quote(internalsample()),
+	  environment(), as.integer(samplesize), as.integer(isdist), as.integer(simple))
+
 	class(ans) <- "clustrangeboot"
 	return(ans)
 }
