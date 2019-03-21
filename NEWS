@@ -1,3 +1,8 @@
+              CHANGES IN WeightedCluster VERSION 1.4
+
+NEW FEATURES
+  o seqpropclust(), wcPropertyClustering(): Monothetic clustering with the DIVCLUS-T algorithm. Automatic sequence properties extraction.
+  o as.clustrange(): Handle monothetic clustering.
 
               CHANGES IN WeightedCluster VERSION 1.2-1
 SMALL FIXES

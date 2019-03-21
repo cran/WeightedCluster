@@ -24,7 +24,7 @@
 \usepackage{rotating}
 \usepackage{varioref}
 \usepackage{array}
-\usepackage{subfigure}
+%\usepackage{subfigure}
 \usepackage{afterpage}
 \usepackage{booktabs}
 \usepackage[svgnames]{xcolor}

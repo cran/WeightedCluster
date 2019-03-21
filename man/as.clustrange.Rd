@@ -3,6 +3,7 @@
 \alias{as.clustrange.twins}
 \alias{as.clustrange.hclust}
 \alias{plot.clustrange}
+\alias{as.clustrange.dtclust}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Build a clustrange object to compare different clustering solutions.
@@ -12,8 +13,12 @@ Build a clustrange object to compare different clustering solutions.
 }
 \usage{
 as.clustrange(object, diss, weights=NULL, R=1,  samplesize=NULL, ...)
-\method{as.clustrange}{twins}(object, diss, weights=NULL, R=1,  samplesize=NULL, ncluster=20, ...) 
-\method{as.clustrange}{hclust}(object, diss, weights=NULL, R=1,  samplesize=NULL, ncluster=20, ...) 
+\method{as.clustrange}{twins}(object, diss, weights=NULL, R=1, samplesize=NULL, 
+		ncluster=20, ...) 
+\method{as.clustrange}{hclust}(object, diss, weights=NULL, R=1, samplesize=NULL, 
+		ncluster=20, ...) 
+\method{as.clustrange}{dtclust}(object, diss, weights=NULL, R=1, samplesize=NULL, 
+		ncluster=20, labels = TRUE, ...)
 \method{plot}{clustrange}(x, stat="noCH", legendpos="bottomright", 
     norm="none", withlegend=TRUE, lwd=1, col=NULL, ylab="Indicators", 
 	xlab="N clusters", conf.int=0.9, ci.method="none", ci.alpha=.3, line="t0", ...)
@@ -26,6 +31,7 @@ as.clustrange(object, diss, weights=NULL, R=1,  samplesize=NULL, ...)
   \item{R}{Optional number of bootstrap that can be used to build confidence intervals.}
   \item{samplesize}{Size of bootstrap sample. Default to sum of weights.}
   \item{ncluster}{Integer. Maximum number of cluster. The range will include all clustering solution starting from two to \code{ncluster}.}
+  \item{labels}{Logical. If \code{TRUE}, rules to assign an object to a sequence is used to label the cluster (instead of a number).}
   \item{x}{A \code{clustrange} object to be plotted.}
   \item{stat}{Character. The list of statistics to plot or "noCH" to plot all statistics except "CH" and "CHsq" or "all" for all statistics. See \code{\link{wcClusterQuality}} for a list of possible values. It is also possible to use "RHC" to plot the quality measure 1-HC. Unlike HC, RHC should be maximized as all other quality measures.}
   \item{legendpos}{Character. legend position, see \code{\link{legend}}.}

@@ -3,23 +3,31 @@ importFrom(utils, packageDescription, packageVersion)
 importFrom(RColorBrewer, brewer.pal)
 importFrom("graphics", "par", "plot", "legend", "lines", "polygon", "layout")
 importFrom("grDevices", "adjustcolor")
-importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust")
+importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust","as.formula", "runif")
+importFrom("graphics", "barplot", "boxplot")
 
 export(
 as.clustrange,
 as.seqtree,
+dtcut,
+fuzzyseqplot,
 wcAggregateCases,
 wcClusterQuality,
 wcCmpCluster,
 wcKMedoids,
 wcKMedRange,
+wcPropertyClustering,
 wcSilhouetteObs,
-seqclustname
+seqclustname,
+seqpropclust
+
 )
 
 S3method(as.clustrange, hclust)
 S3method(as.clustrange, twins)
+S3method(as.clustrange, dtclust)
 S3method(as.clustrange, default)
+
 S3method(as.seqtree, hclust)
 S3method(as.seqtree, twins)
 S3method(as.seqtree, default)
