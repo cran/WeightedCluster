@@ -1,6 +1,6 @@
 Package: WeightedCluster
-Version: 1.4
-Date: 2019-03-21
+Version: 1.4-1
+Date: 2020-07-05
 Title: Clustering of Weighted Data
 Authors@R: person("Matthias", "Studer", email = "matthias.studer@unige.ch", role = c("aut", "cre"))
 Author: Matthias Studer [aut, cre]
@@ -14,6 +14,6 @@ Description: Clusters state sequences and weighted data. It provides an optimize
 License: GPL (>= 2)
 URL: http://mephisto.unige.ch/weightedcluster
 NeedsCompilation: yes
-Packaged: 2019-03-21 09:27:21 UTC; studerm
+Packaged: 2020-07-05 07:14:48 UTC; studerm
 Repository: CRAN
-Date/Publication: 2019-03-21 10:23:29 UTC
+Date/Publication: 2020-07-06 13:10:02 UTC

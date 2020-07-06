@@ -29,7 +29,7 @@ wcClusterQualityInternal <- function(diss, clustering, weights=NULL, kendall=NUL
 	ncluster <- max(clustering)+1
 	if(is.null(kendall)){
 	  cq <- .Call(C_RClusterQual, diss, clustering, as.double(weights),
-	    as.integer(ncluster), as.integer(isdist), as.integer(0))
+	    as.integer(ncluster), as.integer(isdist))
 	}else{
 	  cq <- .Call(C_RClusterQualKendall, diss, clustering, as.double(weights),
 	    as.integer(ncluster), as.integer(isdist), kendall)

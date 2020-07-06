@@ -1,3 +1,9 @@
+              CHANGES IN WeightedCluster VERSION 1.4-1
+
+BUG FIXES
+  o LTO: corrected declaration in init.c
+
+
               CHANGES IN WeightedCluster VERSION 1.4
 
 NEW FEATURES
