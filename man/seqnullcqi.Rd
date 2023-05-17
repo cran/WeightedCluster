@@ -12,7 +12,8 @@
 \usage{
 seqnullcqi(seqdata, clustrange, R, model=c("combined", "duration", "sequencing", 
                     "stateindep", "Markov", "userpos"), seqdist.args=list(), 
-					kmedoid = FALSE, hclust.method="ward.D", ...)
+					kmedoid = FALSE, hclust.method="ward.D", 
+					parallel=FALSE, ...)
 		   
 \method{plot}{seqnullcqi}(x, stat, type = c("line", "density", "boxplot", "seqdplot"),
                           quant = 0.95, norm = TRUE, legendpos = "topright",
@@ -37,6 +38,7 @@ seqnullcqi(seqdata, clustrange, R, model=c("combined", "duration", "sequencing",
 	\item{legendpos}{Character. legend position, see \code{\link{legend}}.}
 	\item{alpha}{Transparency parameter for the lines to be drawn (only for \code{type="line"}).}
 	\item{digits}{Number of digits to be printed.}
+	\item{parallel}{Logical. Whether to initialize the parallel processing of the \code{future} package using the default \code{\link{multisession}} strategy. If \code{FALSE} (default), then the current \code{\link{plan}} is used. If \code{TRUE}, \code{\link{multisession}} \code{\link{plan}} is initialized using default values.}
 	\item{\dots}{Additionnal parameters passed to \code{\link{seqnull}} (for \code{seqnullcqi}) or \code{\link{plot}} or \code{\link{print}}.}
 }
 \details{
@@ -93,7 +95,7 @@ clustqual <- as.clustrange(hc, diss=diss, ncluster=7)
 # Compute cluster quality measure for the null model "combined"
 # seqdist.args should be the same as for seqdist above except the sequence data.
 # Clustering methods should be the same as above.
-bcq <- seqnullcqi(bf.seq, clustqual, R=10, model=c("combined"), 
+bcq <- seqnullcqi(bf.seq, clustqual, R=5, model=c("combined"), 
 				seqdist.args=list(method="HAM"),
 				hclust.method="ward.D")
 

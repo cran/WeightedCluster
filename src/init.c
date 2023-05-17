@@ -8,7 +8,7 @@ extern SEXP RClusterQualBootSeveral(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SE
 extern SEXP RClusterComputeIndivASW(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP RClusterQual(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP RClusterQualKendall(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP RClusterQualKendallFactory();
+extern SEXP RClusterQualKendallFactory(void);
 extern SEXP RKmedoids(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {

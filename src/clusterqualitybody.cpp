@@ -6,7 +6,8 @@
 
 void CLUSTERQUALITY_FUNCNAME(double * distmatrix, int * clusterid, double *weights, int nelements, double* stats, int nclusters, double * errors2, KendallTree &kendall){
 	TMRLOG(2,"Computing statitstics\n");
-	double totweights=0, wxy=0,wxy2=0, wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
+	double totweights=0, wxy=0, wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
+	//double totweights=0, wxy=0,wxy2=0, wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
 	int i, j, ij=0, iclustIndex;
 	double *errors = (double*) R_alloc(nclusters,sizeof(double));
 	int *tablesizes = (int*) R_alloc(nclusters,sizeof(int));
@@ -75,7 +76,7 @@ void CLUSTERQUALITY_FUNCNAME(double * distmatrix, int * clusterid, double *weigh
 						errors[iclustIndex]+=xw;
 						errors2[iclustIndex]+=xxw;
 						wxy+=xw;
-						wxy2+=xxw;
+						//wxy2+=xxw;
 						wy+=ww;
 						cmpclust->clustDist0+=ww;
 					}else{
@@ -330,7 +331,8 @@ void INDIV_ASW_FUNCNAME(double * distmatrix, int * clusterid, double *weights, i
 
 void CLUSTERQUALITYSIMPLE_FUNCNAME(double * distmatrix, int * clusterid, double *weights, int nelements, double* stats, int nclusters, double * errors2){
 	TMRLOG(2,"Computing statitstics\n");
-	double totweights=0, wxy=0,wxy2=0, wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
+	//double totweights=0, wxy=0,wxy2=0, wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
+	double totweights=0, wxy=0,wx=0, wy=0, wx2=0, ww, xx, covxy, covx, covy, pearson, xb, yb, xw, xxw;
 	int i, j, ij, iclustIndex;
 	double *errors = (double*) R_alloc(nclusters,sizeof(double));
 	int *tablesizes = (int*) R_alloc(nclusters,sizeof(int));
@@ -380,7 +382,7 @@ void CLUSTERQUALITYSIMPLE_FUNCNAME(double * distmatrix, int * clusterid, double 
 						errors[iclustIndex]+=xw;
 						errors2[iclustIndex]+=xxw;
 						wxy+=xw;
-						wxy2+=xxw;
+						//wxy2+=xxw;
 						wy+=ww;
 					}
 					totweights+=ww;

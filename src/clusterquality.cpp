@@ -123,7 +123,7 @@ extern "C" {
 		return ans;
 		
 	}
-	SEXP RClusterQualKendallFactory(){
+	SEXP RClusterQualKendallFactory(void){
 		//REprintf("Kendall factory\n");
 		KendallTree *kt = new KendallTree();
 		//REprintf("Kendall factory %d\n", kt->size());

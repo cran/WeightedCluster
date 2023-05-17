@@ -1,10 +1,10 @@
-citHeader("To cite WeightedCluster in publications please use:")
+#citHeader("To cite WeightedCluster in publications please use:")
 
-citEntry(entry="TechReport",
+bibentry(bibtype="TechReport", header="To cite WeightedCluster in publications please use:",
 		author = person("Matthias", "Studer", email = "matthias.studer@unige.ch"),
 		title = "WeightedCluster Library Manual: A practical guide to creating typologies of trajectories in the social sciences with R",
 		year = "2013",
 		institution="LIVES Working Papers 24",
-		note="DOI: 10.12682/lives.2296-1658.2013.24",
+		doi="10.12682/lives.2296-1658.2013.24",
 		textVersion="Studer, Matthias (2013). WeightedCluster Library Manual: A practical guide to creating typologies of trajectories in the social sciences with R. LIVES Working Papers, 24. DOI: 10.12682/lives.2296-1658.2013.24."
 )

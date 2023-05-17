@@ -5,6 +5,11 @@ importFrom("graphics", "par", "plot", "legend", "lines", "polygon", "layout")
 importFrom("grDevices", "adjustcolor", "gray")
 importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust","as.formula", "runif", "density", "sd")
 importFrom("graphics", "barplot", "boxplot", "abline", "segments", "text")
+importFrom("future", "plan", "multisession")
+importFrom("foreach", "foreach")
+importFrom("progressr", "handlers", "handler_progress", "progressor")
+importFrom("doFuture", "%dofuture%")
+
 
 export(
 as.clustrange,
@@ -52,6 +57,8 @@ S3method(print, kmedoids)
 
 S3method(print, wcAggregateCases)
 S3method(wcAggregateCases, data.frame)
+S3method(wcAggregateCases, stslist)
 S3method(wcAggregateCases, matrix)
+S3method(wcAggregateCases, default)
 
 useDynLib(WeightedCluster, .registration = TRUE, .fixes = "C_")

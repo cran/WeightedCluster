@@ -14,7 +14,7 @@
 #endif
 	int i=0, j;
 	int * rndvect;
-	int counter=0;
+	//int counter=0;
 	SEXP randomCentroid;
 	/* Copy values */
 	while(i<nclusters){
@@ -38,7 +38,7 @@
 			if(j<nclusters){
 				break;
 			}
-			counter++;
+			//counter++;
 		}
 		UNPROTECT(1);
 	}

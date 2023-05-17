@@ -1,3 +1,14 @@
+              CHANGES IN WeightedCluster VERSION 1.7-1
+
+NEW FEATURES
+  o seqnullcqi(): added parallel processing support to speed up computation.
+
+BUG FIXES
+  o plot.seqnull(): x and y labels corrected when using boxplots.
+
+CODE CLEANING
+  o Remove set but unused variable and C89 compliance check.
+
               CHANGES IN WeightedCluster VERSION 1.6-0
 
 NEW FEATURES
