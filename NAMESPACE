@@ -2,8 +2,9 @@ import(TraMineR, cluster)
 importFrom(utils, packageDescription, packageVersion)
 importFrom(RColorBrewer, brewer.pal)
 importFrom("graphics", "par", "plot", "legend", "lines", "polygon", "layout")
+importFrom("nnet", "multinom")
 importFrom("grDevices", "adjustcolor", "gray")
-importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust","as.formula", "runif", "density", "sd")
+importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust","as.formula", "runif", "density", "sd", "BIC", "lm")
 importFrom("graphics", "barplot", "boxplot", "abline", "segments", "text")
 importFrom("future", "plan", "multisession")
 importFrom("foreach", "foreach")
@@ -14,6 +15,7 @@ importFrom("doFuture", "%dofuture%")
 export(
 as.clustrange,
 as.seqtree,
+clustassoc,
 dtcut,
 fuzzyseqplot,
 wcAggregateCases,
@@ -42,6 +44,8 @@ S3method(as.seqtree, default)
 S3method(print, clustrange)
 S3method(plot, clustrange)
 S3method(summary, clustrange)
+
+S3method(plot, clustassoc)
 
 S3method(print, clustrangefamily)
 S3method(plot, clustrangefamily)

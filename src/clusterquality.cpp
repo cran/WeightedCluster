@@ -1,3 +1,4 @@
+//#include <map>
 #include "cluster.h"
 /*R_INLINE int getSizeIndex(int* tablesizes, int clust, int maxsize){
 	int i=0;
@@ -15,7 +16,7 @@
 	
 }*/
 
-#include <map>
+
 
 
 class CmpCluster{

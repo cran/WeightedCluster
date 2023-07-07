@@ -1,4 +1,13 @@
-              CHANGES IN WeightedCluster VERSION 1.7-1
+              CHANGES IN WeightedCluster VERSION 1.6-4
+
+NEW FEATURES
+  o clustassoc(): compute the share of an association between an object and a covariate reproduced by a clustering solution.
+
+CODE CLEANING
+  o Change order of C++ header inclusion for compatibility with LLVM toolchain.
+
+
+              CHANGES IN WeightedCluster VERSION 1.6-2
 
 NEW FEATURES
   o seqnullcqi(): added parallel processing support to speed up computation.

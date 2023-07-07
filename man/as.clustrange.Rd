@@ -63,7 +63,7 @@ An object of class \code{clustrange} with the following elements:
 }
 
 \seealso{
-See also \code{\link{wcKMedRange}}, \code{\link{wcClusterQuality}}.
+See also \code{\link{clustassoc}} (other cluster quality measures), \code{\link{wcKMedRange}}, \code{\link{wcClusterQuality}}.
 }
 
 
