@@ -56,11 +56,11 @@ void finalizeKendall(SEXP ptr){
 
 SEXP kendallFactory(KendallTree *kendall) {
     SEXP SDO, classname;
-	PROTECT(classname = allocVector(STRSXP, 1));
-	SET_STRING_ELT(classname, 0, mkChar("KendallTree"));
+	PROTECT(classname = Rf_allocVector(STRSXP, 1));
+	SET_STRING_ELT(classname, 0, Rf_mkChar("KendallTree"));
     SDO = R_MakeExternalPtr(kendall, R_NilValue, R_NilValue);
     R_RegisterCFinalizerEx(SDO, (R_CFinalizer_t) finalizeKendall, TRUE);
-    classgets(SDO, classname);
+    Rf_classgets(SDO, classname);
 	UNPROTECT(1);
     return SDO;
 }
@@ -105,16 +105,16 @@ extern "C" {
 	SEXP RClusterQual(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist){
 		int nclusters=INTEGER(numclust)[0];
 		SEXP ans, stats, asw;
-		PROTECT(ans = allocVector(VECSXP, 2));
-		PROTECT(stats = allocVector(REALSXP, ClusterQualNumStat));
-		PROTECT(asw = allocVector(REALSXP, 2*nclusters));
+		PROTECT(ans = Rf_allocVector(VECSXP, 2));
+		PROTECT(stats = Rf_allocVector(REALSXP, ClusterQualNumStat));
+		PROTECT(asw = Rf_allocVector(REALSXP, 2*nclusters));
 		SET_VECTOR_ELT(ans, 0, stats);
 		SET_VECTOR_ELT(ans, 1, asw);
 		KendallTree kendall;
 		if(INTEGER(isdist)[0]){
-			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), kendall);
+			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), kendall);
 		} else {
-			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), kendall);
+			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), kendall);
 		}
 		KendallTreeIterator it;
 		for (it = kendall.begin();it != kendall.end();it++) {
@@ -133,9 +133,9 @@ extern "C" {
 	SEXP RClusterQualKendall(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist, SEXP kendallS){
 		int nclusters=INTEGER(numclust)[0];
 		SEXP ans, stats, asw;
-		PROTECT(ans = allocVector(VECSXP, 2));
-		PROTECT(stats = allocVector(REALSXP, ClusterQualNumStat));
-		PROTECT(asw = allocVector(REALSXP, 2*nclusters));
+		PROTECT(ans = Rf_allocVector(VECSXP, 2));
+		PROTECT(stats = Rf_allocVector(REALSXP, ClusterQualNumStat));
+		PROTECT(asw = Rf_allocVector(REALSXP, 2*nclusters));
 		SET_VECTOR_ELT(ans, 0, stats);
 		SET_VECTOR_ELT(ans, 1, asw);
 		//REprintf("Before Kendall\n");
@@ -147,26 +147,26 @@ extern "C" {
 		//REprintf("Kendall initialized\n");
 		//return(ans);
 		if(INTEGER(isdist)[0]){
-			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
 		} else {
-			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
 		}
 		UNPROTECT(3);
 		return ans;
 	}
 	
 	SEXP RClusterComputeIndivASW(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist){
-		int nclusters=asInteger(numclust);
+		int nclusters=Rf_asInteger(numclust);
 		SEXP ans, asw_i, asw_w;
-		PROTECT(asw_i = allocVector(REALSXP, length(cluster)));
-		PROTECT(asw_w = allocVector(REALSXP, length(cluster)));
-		PROTECT(ans = allocVector(VECSXP, 2));
+		PROTECT(asw_i = Rf_allocVector(REALSXP, Rf_length(cluster)));
+		PROTECT(asw_w = Rf_allocVector(REALSXP, Rf_length(cluster)));
+		PROTECT(ans = Rf_allocVector(VECSXP, 2));
 		SET_VECTOR_ELT(ans, 0, asw_i);
 		SET_VECTOR_ELT(ans, 1, asw_w);
 		if(INTEGER(isdist)[0]){
-			indiv_asw_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), nclusters, REAL(asw_i), REAL(asw_w));
+			indiv_asw_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), nclusters, REAL(asw_i), REAL(asw_w));
 		} else {
-			indiv_asw(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), nclusters, REAL(asw_i), REAL(asw_w));
+			indiv_asw(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), nclusters, REAL(asw_i), REAL(asw_w));
 		}
 		UNPROTECT(3);
 		return ans;
@@ -175,12 +175,12 @@ extern "C" {
 	SEXP RClusterQualSimple(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP isdist){
 		int nclusters=INTEGER(numclust)[0];
 		SEXP stats, asw;
-		PROTECT(stats = allocVector(REALSXP, ClusterQualNumStat));
-		PROTECT(asw = allocVector(REALSXP, nclusters));
+		PROTECT(stats = Rf_allocVector(REALSXP, ClusterQualNumStat));
+		PROTECT(asw = Rf_allocVector(REALSXP, nclusters));
 		if(INTEGER(isdist)[0]){
-			clusterqualitySimple_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw));
+			clusterqualitySimple_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw));
 		} else {
-			clusterqualitySimple(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw));
+			clusterqualitySimple(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw));
 		}
 		UNPROTECT(2);
 		return stats;
@@ -190,19 +190,19 @@ extern "C" {
 	//.Call(, ans, diss, as.integer(clustmat), as.double(weights), as.integer(ncluster), as.integer(R),  quote(internalsample()), environment(), samplesize, isdist, simple)
 	SEXP RClusterQualBootSeveral(SEXP ans, SEXP diss, SEXP clustmatS, SEXP weightSS, SEXP numclust, SEXP Rs, SEXP expr, SEXP rho, SEXP samplesizeS, SEXP isdist, SEXP simpleS){
 	
-		int nbclusttest = ncols(clustmatS);
-		int ncase = nrows(clustmatS);
+		int nbclusttest = Rf_ncols(clustmatS);
+		int ncase = Rf_nrows(clustmatS);
 		int * clustmat=INTEGER(clustmatS);
 		//REprintf("Clustmat size =%d x %d\n", ncase, nbclusttest);
-		int R = asInteger(Rs);
-		bool simple = asLogical(simpleS);
+		int R = Rf_asInteger(Rs);
+		bool simple = Rf_asLogical(simpleS);
 		int full_stat_indice[] = {ClusterQualHPG, ClusterQualHG, ClusterQualHGSD, 
 						ClusterQualASWi, ClusterQualASWw, ClusterQualF, 
 						ClusterQualR, ClusterQualF2, ClusterQualR2, ClusterQualHC};
 		int short_stat_indice[] = {ClusterQualHPG, ClusterQualF, ClusterQualR, ClusterQualF2, ClusterQualR2};
 		int num_st_indice = ClusterQualNumStat;
 		int * stat_indice = full_stat_indice;
-		int samplesize=asInteger(samplesizeS);
+		int samplesize=Rf_asInteger(samplesizeS);
 		if(simple){
 			stat_indice = short_stat_indice;
 			num_st_indice = 5;
@@ -229,7 +229,7 @@ extern "C" {
 				for(int i=0; i<ncase; i++){	
 					weights[i]=0;
 				}
-				PROTECT(randomSample = eval(expr, rho));
+				PROTECT(randomSample = Rf_eval(expr, rho));
 				int* rs=INTEGER(randomSample);
 				for(int i=0; i<samplesize; i++){	
 					weights[rs[i]]++;
@@ -280,18 +280,18 @@ extern "C" {
 	SEXP RClusterQualBoot(SEXP diss, SEXP cluster, SEXP weightSS, SEXP numclust, SEXP kendallS, SEXP isdist){
 		int nclusters=INTEGER(numclust)[0];
 		SEXP ans, stats, asw;
-		PROTECT(ans = allocVector(VECSXP, 2));
-		PROTECT(stats = allocVector(REALSXP, ClusterQualNumStat));
-		PROTECT(asw = allocVector(REALSXP, 2*nclusters));
+		PROTECT(ans = Rf_allocVector(VECSXP, 2));
+		PROTECT(stats = Rf_allocVector(REALSXP, ClusterQualNumStat));
+		PROTECT(asw = Rf_allocVector(REALSXP, 2*nclusters));
 		SET_VECTOR_ELT(ans, 0, stats);
 		SET_VECTOR_ELT(ans, 1, asw);
 		KendallTree * kendall;
 		kendall= static_cast<KendallTree *>(R_ExternalPtrAddr(kendallS));
 		resetKendallTree(kendall);
 		if(INTEGER(isdist)[0]){
-			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+			clusterquality_dist(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
 		} else {
-			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
+			clusterquality(REAL(diss), INTEGER(cluster), REAL(weightSS), Rf_length(cluster), REAL(stats), nclusters, REAL(asw), (*kendall));
 		}
 		UNPROTECT(3);
 		return ans;

@@ -22,18 +22,18 @@ dtcut(st, k, labels = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{seqdata}{State sequence object (see \code{\link{seqdef}}).}
+ \item{seqdata}{State sequence object (see \code{\link[TraMineR]{seqdef}}).}
   \item{diss}{a dissimilarity matrix or a \code{dist} object.}
   \item{properties}{Character or \code{data.frame}. In \code{seqpropclust}, it can be a list of properties to be extracted from \code{seqdata}. It can also be a \code{data.frame} specifying the properties to use for the clustering.}
   \item{other.prop}{\code{data.frame}. Additional properties to be considered to cluster the sequences.}
   \item{prop.only}{Logical. If \code{TRUE}, the function returns a data.frame containing the extracted properties (without clustering the data).}
-  \item{pmin.support}{Numeric. Minimum support (as a proportion of sequences). See \code{\link{seqefsub}}.}
-  \item{max.k}{Numeric. The maximum number of events allowed in a subsequence. See \code{\link{seqefsub}}.}
+  \item{pmin.support}{Numeric. Minimum support (as a proportion of sequences). See \code{\link[TraMineR]{seqefsub}}.}
+  \item{max.k}{Numeric. The maximum number of events allowed in a subsequence. See \code{\link[TraMineR]{seqefsub}}.}
   \item{with.missing}{Logical. If \code{TRUE}, property of missing spell are also extracted.}
-  \item{R}{Number of permutations used to assess the significance of the split. See \code{\link{disstree}}.}
-  \item{weight.permutation}{Weight permutation method: "diss" (attach weights to the dissimilarity matrix), "replicate" (replicate cases using weights), "rounded-replicate" (replicate case using rounded weights), "random-sampling" (random assignment of covariate profiles to the objects using distributions defined by the weights.). See \code{\link{disstree}}.}
-  \item{min.size}{Minimum number of cases in a node, will be treated as a proportion if less than 1. See \code{\link{disstree}}.}
-  \item{max.depth}{Maximum depth of the tree. See \code{\link{disstree}}.}
+  \item{R}{Number of permutations used to assess the significance of the split. See \code{\link[TraMineR]{disstree}}.}
+  \item{weight.permutation}{Weight permutation method: "diss" (attach weights to the dissimilarity matrix), "replicate" (replicate cases using weights), "rounded-replicate" (replicate case using rounded weights), "random-sampling" (random assignment of covariate profiles to the objects using distributions defined by the weights.). See \code{\link[TraMineR]{disstree}}.}
+  \item{min.size}{Minimum number of cases in a node, will be treated as a proportion if less than 1. See \code{\link[TraMineR]{disstree}}.}
+  \item{max.depth}{Maximum depth of the tree. See \code{\link[TraMineR]{disstree}}.}
   \item{maxcluster}{Maximum number of cluster to consider.}
  \item{st}{A divise clustering tree as produced by \code{seqpropclust}}
   \item{k}{The number of groups to extract.}
@@ -45,7 +45,7 @@ The method implement the DIVCLUS-T algorithm.
 
 }
 \value{
-Return a \code{seqpropclust} object, which is (in fact) a \code{distree} object.  See \code{\link{disstree}}.
+Return a \code{seqpropclust} object, which is (in fact) a \code{distree} object.  See \code{\link[TraMineR]{disstree}}.
 }
 \references{
 
@@ -58,7 +58,7 @@ Chavent M, Lechevallier Y, Briant O (2007). DIVCLUS-T: A monothetic divisive hie
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{as.clustrange}}, \code{\link{seqtreedisplay}}, \code{\link{disstree}}.
+\code{\link{as.clustrange}}, \code{\link[TraMineR]{seqtreedisplay}}, \code{\link[TraMineR]{disstree}}.
 }
 
 

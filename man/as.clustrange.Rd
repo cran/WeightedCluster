@@ -52,7 +52,7 @@ as.clustrange(object, diss, weights=NULL, R=1,  samplesize=NULL, ...)
 
 If \code{object} is a \code{data.frame} or a \code{matrix}, each column should be a clustering solution to be evaluated.
 
-If \code{object} is an \code{hclust} or \code{twins} objects (i.e. hierarchical clustering output, see \code{\link{hclust}}, \code{\link{diana}} or \code{\link{agnes}}), the function compute all clustering solution ranging from two to \code{ncluster} and compute the associated statistics.
+If \code{object} is an \code{hclust} or \code{twins} objects (i.e. hierarchical clustering output, see \code{\link{hclust}}, \code{\link[cluster]{diana}} or \code{\link[cluster]{agnes}}), the function compute all clustering solution ranging from two to \code{ncluster} and compute the associated statistics.
 }
 \value{
 An object of class \code{clustrange} with the following elements:

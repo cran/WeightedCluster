@@ -19,7 +19,7 @@
 	/* Copy values */
 	while(i<nclusters){
 		
-		PROTECT(randomCentroid = eval(expr, rho));
+		PROTECT(randomCentroid = Rf_eval(expr, rho));
 		rndvect = INTEGER(randomCentroid);
 		
 		//Now checking that this is a correct solution

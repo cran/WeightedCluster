@@ -27,7 +27,7 @@ as.seqtree(object, seqdata, diss, weighted=TRUE, ...)
 	By default \code{as.seqtree} try to convert the object to a \code{data.frame} assuming that it contains a list of nested clustering solutions. 
 	Be aware that \code{seqtree} and \code{as.seqtree} only support binary splits.
 	
-	If \code{object} is an \code{hclust} or \code{twins} objects (i.e. hierarchical clustering output, see \code{\link{hclust}}, \code{\link{diana}} or \code{\link{agnes}}), the function returns a \code{seqtree} object reproducing the agglomerative schedulde.
+	If \code{object} is an \code{hclust} or \code{twins} objects (i.e. hierarchical clustering output, see \code{\link{hclust}}, \code{\link[cluster]{diana}} or \code{\link[cluster]{agnes}}), the function returns a \code{seqtree} object reproducing the agglomerative schedulde.
 }
 \value{A \code{\link[TraMineR]{seqtree}} object.}
 

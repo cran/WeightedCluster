@@ -19,7 +19,7 @@ seqnull(seqdata, model = c("combined", "duration", "sequencing",
   \item{seqdata}{
 State sequence object of class \code{stslist}.
     The sequence data to use.
-    Use \code{\link{seqdef}} to create such an object.
+    Use \code{\link[TraMineR]{seqdef}} to create such an object.
 }
   \item{model}{
 	 String.

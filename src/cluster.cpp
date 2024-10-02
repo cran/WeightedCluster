@@ -16,11 +16,11 @@ void finalizeKMedoidBase(SEXP ptr){
 
 inline SEXP KMedoidBaseWorker(KMedoidBase *ds) {
     SEXP SDO, classname;
-	PROTECT(classname = allocVector(STRSXP, 1));
-	SET_STRING_ELT(classname, 0, mkChar("KMedoidBase"));
+	PROTECT(classname = Rf_allocVector(STRSXP, 1));
+	SET_STRING_ELT(classname, 0, Rf_mkChar("KMedoidBase"));
     SDO = R_MakeExternalPtr(ds, R_NilValue, R_NilValue);
     R_RegisterCFinalizerEx(SDO, (R_CFinalizer_t) finalizeKMedoidBase, TRUE);
-    classgets(SDO, classname);
+    Rf_classgets(SDO, classname);
 	UNPROTECT(1);
     return SDO;
 }

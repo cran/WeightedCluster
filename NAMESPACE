@@ -4,17 +4,22 @@ importFrom(RColorBrewer, brewer.pal)
 importFrom("graphics", "par", "plot", "legend", "lines", "polygon", "layout")
 importFrom("nnet", "multinom")
 importFrom("grDevices", "adjustcolor", "gray")
-importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "hclust","as.formula", "runif", "density", "sd", "BIC", "lm")
+importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "as.formula", "runif", "density", "sd", "BIC", "lm")
 importFrom("graphics", "barplot", "boxplot", "abline", "segments", "text")
-importFrom("future", "plan", "multisession")
+importFrom("future", "plan", "multisession", "sequential")
 importFrom("foreach", "foreach")
 importFrom("progressr", "handlers", "handler_progress", "progressor")
 importFrom("doFuture", "%dofuture%")
+importFrom("doFuture", "%dofuture%")
+importFrom("fastcluster", "hclust")
+importFrom("vegclust", "as.memb", "crossmemb")
+importFrom("utils", "flush.console", "getS3method")
 
 
 export(
 as.clustrange,
 as.seqtree,
+bootclustrange,
 clustassoc,
 dtcut,
 fuzzyseqplot,
@@ -28,8 +33,8 @@ wcSilhouetteObs,
 seqclustname,
 seqnull,
 seqnullcqi, 
-seqpropclust
-
+seqpropclust,
+seqclararange
 )
 
 S3method(as.clustrange, hclust)
@@ -51,6 +56,10 @@ S3method(print, clustrangefamily)
 S3method(plot, clustrangefamily)
 S3method(summary, clustrangefamily)
 
+
+S3method(plot, seqclararange)
+S3method(print, bootclustrange)
+S3method(plot, bootclustrange)
 
 
 S3method(print, seqnullcqi)

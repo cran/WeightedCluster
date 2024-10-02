@@ -1,15 +1,15 @@
 #include "kmedoidbase.h"
 
 KMedoidBase::KMedoidBase(SEXP Snelement, SEXP diss, SEXP _expr, SEXP _rho, SEXP Scentroids, SEXP Snpass, SEXP Sweights, SEXP Sisdist): 
-					nclusters(length(Scentroids)), nelements(INTEGER(Snelement)[0]), distmatrix(REAL(diss)),
+					nclusters(Rf_length(Scentroids)), nelements(INTEGER(Snelement)[0]), distmatrix(REAL(diss)),
 					npass(INTEGER(Snpass)[0]),clusterid(NULL), stat(NULL), expr(_expr), rho(_rho), 
 					weights(REAL(Sweights)), centroids(NULL), maxdist(0), isdist(INTEGER(Sisdist)[0]){
 						TMRLOG(1, "Start KMedoidBase builded nclusters=%d nelements=%d\n", nclusters, nelements);
 						distlength=(nelements*(nelements-1))/2;
 						SEXP cluster, statS;
-						PROTECT(ans = allocVector(VECSXP, 2));
-						PROTECT(cluster = allocVector(INTSXP, nelements));
-						PROTECT(statS = allocVector(REALSXP, 3));
+						PROTECT(ans = Rf_allocVector(VECSXP, 2));
+						PROTECT(cluster = Rf_allocVector(INTSXP, nelements));
+						PROTECT(statS = Rf_allocVector(REALSXP, 3));
 						SET_VECTOR_ELT(ans, 0, cluster);
 						SET_VECTOR_ELT(ans, 1, statS);
 						TMRLOG(1, "Return memory allocated\n", nclusters, nelements);

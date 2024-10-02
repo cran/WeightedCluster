@@ -29,7 +29,7 @@ K-Medoids or PAM clustering of weighted data.
 	The function \code{wcKMedoids} support three differents algorithms specified using the \code{method} argument:
 	\describe{
 		\item{"KMedoids"}{Start with a random solution and then iteratively adapt the medoids using an algorithm similar to kmeans. Part of the code is inspired (but completely rewritten) by the C clustering library (see de Hoon et al. 2010). If you use this solution, you should set npass>1 to try several solution.}
-		\item{"PAM"}{See \code{\link[cluster]{pam}} in the \code{cluster} library. This code is based on the one available in the \code{\link{cluster}} library (Maechler et al. 2011). The advantage over the previous method is that it try to minimize a global criteria instead of a local one.}
+		\item{"PAM"}{See \code{\link[cluster]{pam}} in the \code{cluster} library. This code is based on the one available in the \code{cluster} library (Maechler et al. 2011). The advantage over the previous method is that it try to minimize a global criteria instead of a local one.}
 		\item{"PAMonce"}{Same as previous but with two optimizations. First, the optimization presented by Reynolds et al. 2006. Second, only evaluate possible swap if the dissimilarity is greater than zero. This algorithm is used by default.}
 	}
 

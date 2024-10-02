@@ -177,7 +177,7 @@ plot.seqnullcqi <- function(x, stat, type=c("line", "density", "boxplot", "seqdp
 }
 
 seqnullcqi <- function(seqdata, clustrange, R, model=c("combined", "duration", "sequencing", "stateindep", "Markov", "userpos"),
-						seqdist.args=list(), kmedoid=FALSE, hclust.method="ward.D", parallel=FALSE, ...){
+						seqdist.args=list(), kmedoid=FALSE, hclust.method="ward.D", parallel=FALSE, progressbar=FALSE, ...){
 	if(!inherits(clustrange, "clustrange")){
 		stop(" [!] Original cluster quality measures should be provided as a clustrange object. See ?as.clustrange().\n")
 	}
@@ -212,18 +212,20 @@ seqnullcqi <- function(seqdata, clustrange, R, model=c("combined", "duration", "
 		  #progress <- function(n) setTxtProgressBar(pb, n)
 		#opts <- list(progress = function(n) pb$tick())
 		#`%dopar%` <- foreach::`%dopar%`
+	if(progressbar){	
 		if (requireNamespace("progress", quietly = TRUE)) {
-			old_handlers <- handlers(handler_progress(format   = "(:spin) [:bar] :percent | Elapsed: :elapsed | ETA: :eta | :message"))
-			if(!is.null(old_handlers)){
-				on.exit(handlers(old_handlers), add = TRUE)
+				old_handlers <- handlers(handler_progress(format   = "(:spin) [:bar] :percent | Elapsed: :elapsed | ETA: :eta | :message"))
+				if(!is.null(old_handlers)){
+					on.exit(handlers(old_handlers), add = TRUE)
+				}
+			}else{
+				message(" [>] Install the progress package to see estimated remaining time.")
 			}
-		}else{
-			message(" [>] Install the progress package to see estimated remaining time.")
-		}
-		oldglobal <- handlers(global=TRUE)
-		if(!is.null(oldglobal)){
-			on.exit(handlers(global=oldglobal), add = TRUE)
-		}
+			oldglobal <- handlers(global=TRUE)
+			if(!is.null(oldglobal)){
+				on.exit(handlers(global=oldglobal), add = TRUE)
+			}
+	}
 		p <- progressor(R)
 		#parObject <- foreach::foreach(loop=1:R,  .packages = c('TraMineR', 'WeightedCluster'), .options.future = list(seed = TRUE)) %dofuture% {#on stocke chaque
 		parObject <- foreach(loop=1:R, .options.future = list(seed = TRUE)) %dofuture% {#on stocke chaque

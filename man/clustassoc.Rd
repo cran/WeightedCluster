@@ -27,7 +27,7 @@ clustassoc(clustrange, diss, covar, weights = NULL)
 \details{
 The \code{clustassoc} measures to which extent a clustering solution can account for the relationship between a covariate and the objects of interest. It can be used to guide the choice of the number of groups of the clustering to ensure that it captures the relevant information to account for a statistical relationship of interest. 
 
-The method works as follows. The relationship between trajectories (or any objects described by a distance matrix) and covariates can be studied directly using discrepancy analysis (see Studer et al. 2011). It measures the strength of the relationship with a Pseudo-R2, measuring the share of the variation of the object explained by a covariate. The method works without prior clustering, and therefore, without data simplification. The method is provided by the \code{\link{dissmfacw}} function from the \code{TraMineR} package.
+The method works as follows. The relationship between trajectories (or any objects described by a distance matrix) and covariates can be studied directly using discrepancy analysis (see Studer et al. 2011). It measures the strength of the relationship with a Pseudo-R2, measuring the share of the variation of the object explained by a covariate. The method works without prior clustering, and therefore, without data simplification. The method is provided by the \code{\link[TraMineR]{dissmfacw}} function from the \code{TraMineR} package.
 
 Multifactor discrepancy analysis allows measuring a relationship while controlling for other covariates. the \code{clustassoc} function measures the remaining association between the objects and the covariate while controlling for the clustering. If the covariate Pseudo-R2 remains high (or at the same level), it means that the clustering does not capture the relationship between covariates and the objects. In other words, the clustering has simplified the relevant information to capture this relationship. Conversely, if the Pseudo-R2 is much lower, it means that the clustering reproduces the key information to understand the relationship. Using this strategy, the \code{clustassoc} measure the share of the original Pseudo-R2 that is taken into account by our clustering.
 
@@ -58,7 +58,7 @@ Matthias Studer
 }
 
 \seealso{
-See Also \code{\link{as.clustrange}} for cluster quality indexes, and the \code{\link{dissmfacw}} function from the \code{TraMineR} package.
+See Also \code{\link{as.clustrange}} for cluster quality indexes, and the \code{\link[TraMineR]{dissmfacw}} function from the \code{TraMineR} package.
 }
 \examples{
 data(mvad)

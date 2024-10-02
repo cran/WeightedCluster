@@ -17,7 +17,7 @@ wcSilhouetteObs(diss, clustering, weights = NULL, measure="ASW")
   \item{measure}{"ASW" or "ASWw", the measure of the silhouette. See the WeigthedCluster vignettes.}
 }
 \details{
-See the \code{\link[cluster]{silhouette}} function in the \code{\link{cluster}} package for a detailed explanation of the silhouette.
+See the \code{\link[cluster]{silhouette}} function in the \code{cluster} package for a detailed explanation of the silhouette.
 }
 \value{A numeric vector containing the silhouette of each observation.}
 \references{

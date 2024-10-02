@@ -24,8 +24,8 @@ wcCmpCluster(diss, weights = NULL, maxcluster, method = "all", pam.combine = TRU
   \item{maxcluster}{Integer. Maximum number of cluster. The range will include all clustering solution starting from two to \code{ncluster}.}
   \item{method}{A vector of hierarchical clustering methods to compute or \code{"all"} for all methods. 
 	Possible values include "ward", "single", "complete", "average", "mcquitty", "median", "centroid" (using \code{\link{hclust}}), 
-	"pam" (using \code{\link{wcKMedRange}}), "diana" (only for unweighted datasets using \code{\link{diana}}), 
-	"beta.flexible" (only for unweighted datasets using \code{\link{agnes}})}
+	"pam" (using \code{\link{wcKMedRange}}), "diana" (only for unweighted datasets using \code{\link[cluster]{diana}}), 
+	"beta.flexible" (only for unweighted datasets using \code{\link[cluster]{agnes}})}
   \item{pam.combine}{Logical. Should we try all combinations of hierarchical and PAM clustering?}
   \item{x}{A \code{clustrangefamily} object to plot or print}
   \item{object}{A \code{clustrangefamily} object to summarize}

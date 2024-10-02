@@ -7,7 +7,7 @@ PAM::PAM(SEXP Snelement, SEXP diss, SEXP _expr, SEXP _rho, SEXP Scentroids, SEXP
 	TMRLOG(1, "PAM builded\n");
 }
  double PAM::runclusterloop_dist(const int & ipass){
-	error("[!] Not (yet) implemented (please use PAMonce algorithm)\n");
+	Rf_error("[!] Not (yet) implemented (please use PAMonce algorithm)\n");
 	return DBL_MAX;
  }
  double PAM::runclusterloop(const int & ipass){

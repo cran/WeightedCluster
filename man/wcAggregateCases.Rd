@@ -21,7 +21,7 @@ wcAggregateCases(x, weights = NULL, ...)
 \arguments{
 	\item{x}{The object to aggregate.}
 	\item{weights}{Numeric. An optional case weights vector.}
-	\item{weighted}{Logical. If \code{TRUE}, the \code{weights} are taken from the sequence object (see \code{\link{seqdef}}).}
+	\item{weighted}{Logical. If \code{TRUE}, the \code{weights} are taken from the sequence object (see \code{\link[TraMineR]{seqdef}}).}
 	\item{\dots}{Optional additionnal arguments.}
 }
 %\details{
