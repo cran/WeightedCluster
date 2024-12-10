@@ -9,7 +9,7 @@
 	#endif
 #endif
 */
-#define R_NO_REMAP
+//#define R_NO_REMAP
 #ifdef __cplusplus
 	#include <cstdio>
 	#include <cstdarg>

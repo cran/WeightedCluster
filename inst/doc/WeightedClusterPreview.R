@@ -25,8 +25,8 @@ opts_chunk$set(message=FALSE, prompt=TRUE, dev="pdf", echo=TRUE, comment=NA, sma
 ##knit_hooks$set(warning = function(x, options) stop("Warnings: ", x))
 
 ## ----install, echo=TRUE, results="hide", eval=FALSE, fig.keep="none"----
-#  install.packages("WeightedCluster")
-#  library(WeightedCluster)
+# install.packages("WeightedCluster")
+# library(WeightedCluster)
 
 ## ----dataload, echo=TRUE, results="hide", fig.keep="none"----
 data(mvad)
@@ -45,8 +45,8 @@ diss <- seqdist(mvad.seq, method="HAM")
 averageClust <- hclust(as.dist(diss), method="average", members=aggMvad$aggWeights)
 
 ## ----avgtreecomputeecho, echo=TRUE, eval=FALSE, fig.keep="none"----
-#  averageTree <- as.seqtree(averageClust, seqdata=mvad.seq, diss=diss, ncluster=6)
-#  seqtreedisplay(averageTree, type="d", border=NA,  showdepth=TRUE)
+# averageTree <- as.seqtree(averageClust, seqdata=mvad.seq, diss=diss, ncluster=6)
+# seqtreedisplay(averageTree, type="d", border=NA,  showdepth=TRUE)
 
 ## ----avgqualcompute, echo=TRUE, consolew=40, fig.keep="none"----
 avgClustQual <- as.clustrange(averageClust, diss, weights=aggMvad$aggWeights, ncluster=10)

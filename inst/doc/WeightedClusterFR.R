@@ -28,8 +28,8 @@ opts_chunk$set(message=FALSE, prompt=TRUE, echo=TRUE, dev="pdf", comment=NA, sma
 ## knit_hooks$set(warning = function(x, options) stop("Warnings: ", x))
 
 ## ----WCload, eval=FALSE, fig.keep="none"------------------
-#  install.packages("WeightedCluster")
-#  library(WeightedCluster)
+# install.packages("WeightedCluster")
+# library(WeightedCluster)
 
 ## ----distcompute, tidy=FALSE, fig.keep="none"-------------
 data(mvad)
@@ -59,10 +59,10 @@ wardCluster <- hclust(as.dist(mvaddist), method="ward", members=mvad$weight)
 wardTree <- as.seqtree(wardCluster, seqdata=mvadseq, diss=mvaddist, ncluster=6)
 
 ## ----seqtreedisplay, echo=FALSE, results="hide", eval=FALSE, fig.keep="none"----
-#  seqtreedisplay(wardTree, type="d", border=NA, filename="wardtree.png", showdepth=TRUE, showtree=FALSE)
+# seqtreedisplay(wardTree, type="d", border=NA, filename="wardtree.png", showdepth=TRUE, showtree=FALSE)
 
 ## ----seqtreedisplay-fake, eval=FALSE, echo=TRUE, results="hide", fig.keep="none"----
-#  seqtreedisplay(wardTree, type="d", border=NA, showdepth=TRUE)
+# seqtreedisplay(wardTree, type="d", border=NA, showdepth=TRUE)
 
 ## ----cutreecompute, fig.keep="none"-----------------------
 clust4 <- cutree(wardCluster, k=4)
@@ -155,13 +155,13 @@ dsa <- dissassoc(mvaddist, mvad$test, weights=mvad$weight, weight.permutation="d
 print(dsa$stat)
 
 ## ----seqtree-link-covar, echo=FALSE, results="hide", eval=FALSE, fig.keep="none"----
-#  set.seed(1)
-#  tree <- seqtree(mvadseq~gcse5eq+Grammar+funemp, data=mvad, diss=mvaddist, weight.permutation="diss")
-#  seqtreedisplay(tree, type="d", border=NA, filename="seqtree.png", showtree=FALSE)
+# set.seed(1)
+# tree <- seqtree(mvadseq~gcse5eq+Grammar+funemp, data=mvad, diss=mvaddist, weight.permutation="diss")
+# seqtreedisplay(tree, type="d", border=NA, filename="seqtree.png", showtree=FALSE)
 
 ## ----seqtree-link-covar-fake, eval=FALSE, echo=TRUE, results="hide", fig.keep="none"----
-#  tree <- seqtree(mvadseq~gcse5eq+Grammar+funemp, data=mvad, diss=mvaddist, weight.permutation="diss")
-#  seqtreedisplay(tree, type="d", border=NA)
+# tree <- seqtree(mvadseq~gcse5eq+Grammar+funemp, data=mvad, diss=mvaddist, weight.permutation="diss")
+# seqtreedisplay(tree, type="d", border=NA)
 
 ## ----wcAggregateCases, echo=TRUE, fig.keep="none"---------
 ac <- wcAggregateCases(mvad[, 17:86], weights=mvad$weight)

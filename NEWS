@@ -1,3 +1,12 @@
+              CHANGES IN WeightedCluster VERSION 1.8-1
+
+NEW VIGNETTES
+  o BigDataSA: Short R Tutorial on the clustering large databases with sequence analsyis.
+  o ClusterExternalValidSA: Short R Tutorial on the validation of cluster analysis results based on covariates or outcome variables.
+  o ClusterValidSA: Short R Tutorial on the validation of cluster analysis using parametric bootstraps.
+  o FuzzySA: Short R Tutorial on fuzzy clustering and property-based clustering in sequence analysis.
+  
+
               CHANGES IN WeightedCluster VERSION 1.8-0
 
 NEW FEATURES
