@@ -1,4 +1,4 @@
-% -*- TeX -*- -*- FR -*-
+% -*- TeX:Rnw  -*- -*- FR -*-
 %input "C:\Documents and Settings\Matthias\Application Data\MiKTeX\2.9\bibtex\bib\stat.bib"
 %input "C:\Documents and Settings\Matthias\Application Data\MiKTeX\2.9\bibtex\bib\bibliomat.bib"
 %input "C:\Users\Matthias-Util\AppData\Local\MiKTeX\2.9\bibtex\bib\stat.bib"
@@ -10,7 +10,7 @@
 
 \documentclass[article, nojss, a4paper, shortnames]{jss}
 
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage{a4}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,7 +42,7 @@ Outre les m\'{e}thodes, nous discutons \'{e}galement de la construction de typol
   URL: \url{http://mephisto.unige.ch/weightedcluster/}
 }
 
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}

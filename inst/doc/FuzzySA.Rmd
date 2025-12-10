@@ -121,7 +121,7 @@ summary(bdirig)
 ```
 
 
-Beta regression is available in the `betareg` package [@R-betareg]. To estimate a beta regression for the third fuzzy type, one can use.
+Beta regression is available in the `betareg` package [@betareg2010]. To estimate a beta regression for the third fuzzy type, one can use.
 
 ```{r betareg}
 library(betareg)

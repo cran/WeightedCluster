@@ -76,8 +76,16 @@ seqclararange <- function(seqdata, R = 100, sample.size = 40 + 2 * max(kvals), k
   gc()
   message(" [>] Starting iterations...\n")
   ## Launch parallel loop
+  ##Internal function export
+  wfcmdd_export <- getFromNamespace("wfcmdd", "WeightedCluster")
+  fuzzy_davies_bouldin_internal_export <- getFromNamespace("fuzzy_davies_bouldin_internal", "WeightedCluster")
+  davies_bouldin_internal_export <- getFromNamespace("davies_bouldin_internal", "WeightedCluster")
+
+  
   # calc_pam <- foreach(loop=1:R, .export=c("davies_bouldin_internal"), .packages = c('TraMineR', 'cluster', 'WeightedCluster', 'fastcluster')) %dofuture%{#on stocke chaque sample
-  calc_pam <- foreach(loop = 1:R, .options.future = list(seed = TRUE, globals = structure(TRUE, add = c("sample.size", "seqdist.args", "m", "dnoise", "dlambda")))) %dofuture% { # on stocke chaque sample
+  calc_pam <- foreach(loop = 1:R, .options.future = list(seed = TRUE, packages = c('TraMineR', 'cluster', 'WeightedCluster', 'fastcluster', "vegclust"), 
+						globals = c("agseqdata", "ac", "seqdist.args", "sample.size", "kvals",  "method", "sample.size", "seqdist.args", "m", "dnoise", 
+									"dlambda", "p", "wfcmdd_export", "fuzzy_davies_bouldin_internal_export", "davies_bouldin_internal_export"))) %dofuture% { # on stocke chaque sample
     ltime <- Sys.time()
     mysample <- sample.int(nrow(agseqdata), size = sample.size, prob = ac$probs, replace = TRUE)
     ## Re-aggregate!
@@ -100,9 +108,9 @@ seqclararange <- function(seqdata, R = 100, sample.size = 40 + 2 * max(kvals), k
         ## Weighted FCMdd clustering on subsample
         memb <- as.memb(cutree(hc, k = kvals[k]))
         algo <- ifelse(method == "fuzzy", "FCMdd", "NCdd")
-        clusteringC <- wfcmdd(diss, memb = memb, weights = ac2$aggWeights, method = algo, m = m, dnoise = dnoise, dlambda=dlambda) # FCMdd algo sur la matrice de distance
+        clusteringC <- wfcmdd_export(diss, memb = memb, weights = ac2$aggWeights, method = algo, m = m, dnoise = dnoise, dlambda=dlambda) # FCMdd algo sur la matrice de distance
         fanny <- fanny(diss, kvals[k], diss = TRUE, memb.exp = m, iniMem.p = memb, tol = 0.00001)
-        clustering <- wfcmdd(diss, memb = fanny$membership, weights = ac2$aggWeights, method = algo, m = m, dnoise = dnoise, dlambda=dlambda) # FCMdd algo sur la matrice de distance
+        clustering <- wfcmdd_export(diss, memb = fanny$membership, weights = ac2$aggWeights, method = algo, m = m, dnoise = dnoise, dlambda=dlambda) # FCMdd algo sur la matrice de distance
         if (clusteringC$functional < clustering$functional) {
           clustering <- clusteringC
         }
@@ -132,14 +140,19 @@ seqclararange <- function(seqdata, R = 100, sample.size = 40 + 2 * max(kvals), k
       sil <- ((alphabeta[2, ] - alphabeta[1, ]) / pmax(alphabeta[2, ], alphabeta[1, ]))
       if (method == "fuzzy") {
         ## Allocate to clusters using FCM formulae
-        memb <- (1 / diss2)^(1 / (m - 1))
-        memb <- memb / rowSums(memb)
-        memb[diss2 == 0] <- 1
+		zerodistcond <- diss2==0
+		allmed <- rowSums(zerodistcond)>0
+		mexp <- -(1 / (m - 1))
+        memb <- diss2^mexp
+        memb[allmed, ] <- 0
+        memb[zerodistcond] <- 1
+		memb <- memb / rowSums(memb)
+		rm(zerodistcond, allmed)
         ## Compute criterion (FCMdd Formulae)
         ## mean_diss <- sum(rowSums((memb^m)*diss2)*ac$aggWeights)
         mean_diss <- sum(rowSums((memb^m) * diss2) * ac$probs)
 
-        db <- fuzzy_davies_bouldin_internal(diss2, memb, medoids, weights = ac$aggWeights)$db
+        db <- fuzzy_davies_bouldin_internal_export(diss2, memb, medoids, weights = ac$aggWeights)$db
 
         alpha <- 1
         hightest.memb <- apply(memb, 1, function(x) {
@@ -151,15 +164,21 @@ seqclararange <- function(seqdata, R = 100, sample.size = 40 + 2 * max(kvals), k
         rm(hightest.memb)
       } else if (method == "noise") {
         ## Allocate to clusters using FCM formulae
+		
         diss3 <- cbind(diss2, dnoise)
-        memb <- (1 / diss3)^(1 / (m - 1))
-        memb <- memb / rowSums(memb)
-        memb[diss3 == 0] <- 1
+		zerodistcond <- diss3==0
+		allmed <- rowSums(zerodistcond)>0
+        mexp <- -(1 / (m - 1))
+        memb <- diss3^mexp
+        memb[allmed, ] <- 0
+        memb[zerodistcond] <- 1
+		memb <- memb / rowSums(memb)
+		rm(zerodistcond, allmed)
         ## Compute criterion (FCMdd Formulae)
         ## mean_diss <- sum(rowSums((memb^m)*diss2)*ac$aggWeights)
         mean_diss <- sum(rowSums((memb^m) * diss3) * ac$probs)
 
-        db <- fuzzy_davies_bouldin_internal(diss2, memb[, -ncol(memb), drop = FALSE], medoids, weights = ac$aggWeights)$db
+        db <- fuzzy_davies_bouldin_internal_export(diss2, memb[, -ncol(memb), drop = FALSE], medoids, weights = ac$aggWeights)$db
 
         alpha <- 1
         hightest.memb <- apply(memb[, -ncol(memb), drop = FALSE], 1, function(x) {
@@ -174,7 +193,7 @@ seqclararange <- function(seqdata, R = 100, sample.size = 40 + 2 * max(kvals), k
         memb <- apply(diss2, 1, which.min)
 
         mean_diss <- sum(alphabeta[1, ] * ac$probs)
-        db <- davies_bouldin_internal(diss2, memb, medoids, weights = ac$aggWeights)$db
+        db <- davies_bouldin_internal_export(diss2, memb, medoids, weights = ac$aggWeights)$db
         pbm <- ((1 / length(medoids)) * (max(diss2[medoids, ]) / mean_diss))^2
         ams <- sum(sil * ac$probs)
       }

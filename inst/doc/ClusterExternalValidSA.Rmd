@@ -69,7 +69,7 @@ mvad.seq <- seqdef(mvad, 17:86, alphabet = mvad.alphabet, states = mvad.shortlab
 
 We will now create a typology using cluster analysis. Readers interested in more detail are referred to the `WeightedCluster` library manual (also available as a vignette), which goes into the details of the creation and computation of cluster quality measures. 
 
-We start by computing dissimilarities with the `seqdist` function using the Hamming distance. We then use Ward clustering to create a typology of the trajectories. For this step, we recommend the use of the `fastcluster` library [@R-fastcluster], which considerably speed up the computations.
+We start by computing dissimilarities with the `seqdist` function using the Hamming distance. We then use Ward clustering to create a typology of the trajectories. For this step, we recommend the use of the `fastcluster` library [@fastcluster2013], which considerably speed up the computations.
 
 
 ```{r, cache=TRUE, message=FALSE}

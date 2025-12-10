@@ -3,7 +3,7 @@ wcCmpCluster <- function(diss, weights=NULL, maxcluster, method="all", pam.combi
 		stop(" [!] maxcluster should be greater than 2")
 	}
 	method <- tolower(method)
-	hclustmethods <- c( "ward", "single", "complete", "average", "mcquitty", "median", "centroid")
+	hclustmethods <- c( "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
 	all.methods <- c(hclustmethods, "pam", "diana", "beta.flexible")
 	noweights.methods <- c("diana", "beta.flexible")
 	if(any(method=="all")){

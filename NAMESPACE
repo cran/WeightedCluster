@@ -1,15 +1,14 @@
 import(TraMineR, cluster)
-importFrom(utils, packageDescription, packageVersion)
+importFrom(utils, packageDescription, packageVersion, "getFromNamespace")
 importFrom(RColorBrewer, brewer.pal)
 importFrom("graphics", "par", "plot", "legend", "lines", "polygon", "layout")
 importFrom("nnet", "multinom")
 importFrom("grDevices", "adjustcolor", "gray")
-importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "as.formula", "runif", "density", "sd", "BIC", "lm")
-importFrom("graphics", "barplot", "boxplot", "abline", "segments", "text")
+importFrom("stats", "var", "cutree", "median", "qnorm", "quantile", "xtabs", "aggregate", "as.dist", "as.formula", "runif", "density", "sd", "BIC", "lm", "glm", "na.omit", "qt", "model.frame")
+importFrom("graphics", "barplot", "boxplot", "abline", "segments", "text", "hist")
 importFrom("future", "plan", "multisession", "sequential")
 importFrom("foreach", "foreach")
 importFrom("progressr", "handlers", "handler_progress", "progressor")
-importFrom("doFuture", "%dofuture%")
 importFrom("doFuture", "%dofuture%")
 importFrom("fastcluster", "hclust")
 importFrom("vegclust", "as.memb", "crossmemb")
@@ -34,7 +33,8 @@ seqclustname,
 seqnull,
 seqnullcqi, 
 seqpropclust,
-seqclararange
+seqclararange,
+rarcat
 )
 
 S3method(as.clustrange, hclust)
@@ -60,6 +60,10 @@ S3method(summary, clustrangefamily)
 S3method(plot, seqclararange)
 S3method(print, bootclustrange)
 S3method(plot, bootclustrange)
+
+S3method(print, rarcat)
+S3method(plot, rarcat)
+S3method(summary, rarcat)
 
 
 S3method(print, seqnullcqi)

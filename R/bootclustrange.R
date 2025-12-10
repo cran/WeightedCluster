@@ -47,7 +47,8 @@ bootclustrange <- function(object, seqdata, seqdist.args = list(method = "LCS"),
   p <- progressor(R)
 
   ## Parallel loop
-  calc_cqi <- foreach(loop = 1:R, .options.future = list(packages = c("TraMineR", "WeightedCluster"), seed = TRUE, globals = structure(TRUE, add = c("sample.size", "seqdist.args")))) %dofuture% { # on stocke chaque bootstrap
+  calc_cqi <- foreach(loop = 1:R, .options.future = list(packages = c("TraMineR", "WeightedCluster"), seed = TRUE, globals = c("sample.size", "seqdist.args", "strata",
+  "sampling", "medoids", "clustering", "seqdata"))) %dofuture% { # on stocke chaque bootstrap
 
     ## function for stratified subsampling
     stratsampling <- function() {

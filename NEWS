@@ -1,3 +1,13 @@
+              CHANGES IN WeightedCluster VERSION 2.0
+NEW FEATURES
+  o rarcat() and friends (print, plot, summary): Robustness Assessment of Regressions using Cluster Analysis Typologies (RARCAT).
+
+NEW VIGNETTES
+  o RARCAT: Short R Tutorial on Robustness Assessment of Regressions using Cluster Analysis Typologies (RARCAT) with sequence analysis.
+  
+SMALL FIXES
+  o Updated LaTeX code in WeightedClusterFR
+
               CHANGES IN WeightedCluster VERSION 1.8-1
 
 NEW VIGNETTES
